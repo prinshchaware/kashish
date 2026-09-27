@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kashish Wears — Latest Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky:#EAF6FC;
+    --sky-deep:#BFE3F0;
+    --pink:#FCEAF1;
+    --pink-deep:#F3B9D2;
+    --white:#FFFFFF;
+    --ink:#3C2F3A;
+    --muted:#8C7C89;
+    --gold:#C9A14E;
+    --line:#EADFE6;
+    box-sizing:border-box;
+  }
+  *{box-sizing:inherit; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Jost', sans-serif;
+    color:var(--ink);
+    background:var(--white);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{font-family:'Cormorant Garamond', serif; font-weight:600; line-height:1.1; color:var(--ink);}
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; cursor:pointer; border:none; background:none;}
+  img{max-width:100%; display:block;}
+
+  /* ===== Ambient background (pure CSS — no stock photos) ===== */
+  .ambient{position:fixed; inset:0; z-index:-1; overflow:hidden; background:
+      radial-gradient(ellipse 900px 600px at 12% -5%, var(--sky) 0%, transparent 60%),
+      radial-gradient(ellipse 800px 700px at 92% 10%, var(--pink) 0%, transparent 55%),
+      radial-gradient(ellipse 700px 600px at 20% 95%, var(--pink) 0%, transparent 55%),
+      radial-gradient(ellipse 800px 700px at 100% 100%, var(--sky) 0%, transparent 55%),
+      var(--white);
+  }
+  .drift{position:absolute; border-radius:50%; filter:blur(70px); opacity:.55; animation:drift 22s ease-in-out infinite alternate;}
+  .drift.d1{width:340px; height:340px; background:var(--sky-deep); top:5%; left:8%;}
+  .drift.d2{width:300px; height:300px; background:var(--pink-deep); top:55%; right:8%; animation-delay:3s;}
+  .drift.d3{width:260px; height:260px; background:var(--sky-deep); bottom:6%; left:35%; animation-delay:6s;}
+  @keyframes drift{ from{transform:translate(0,0) scale(1);} to{transform:translate(30px,-25px) scale(1.12);} }
+
+  .lace-pattern{position:fixed; inset:0; z-index:-1; opacity:.5;
+    background-image:radial-gradient(circle, #d9c3d2 1px, transparent 1px);
+    background-size:26px 26px;
+  }
+
+  /* scroll reveal */
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in-view{opacity:1; transform:translateY(0);}
+
+  /* ===== HEADER ===== */
+  header{position:sticky; top:0; z-index:60; background:rgba(255,255,255,.82); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  .nav-wrap{max-width:1180px; margin:0 auto; padding:16px 24px; display:flex; align-items:center; justify-content:space-between;}
+  .brand{font-family:'Cormorant Garamond',serif; font-size:1.7rem; font-weight:700; letter-spacing:.02em;}
+  .brand span{color:var(--gold); font-style:italic;}
+  nav.links{display:flex; gap:4px;}
+  nav.links button{padding:9px 18px; border-radius:999px; font-size:.92rem; letter-spacing:.03em; transition:background .2s, color .2s;}
+  nav.links button:hover{background:var(--sky);}
+  nav.links button.active{background:var(--ink); color:#fff;}
+  .nav-cta{background:var(--pink-deep); color:#fff; padding:10px 20px; border-radius:999px; font-size:.9rem; font-weight:500; transition:background .2s, transform .15s;}
+  .nav-cta:hover{background:#E894B7; transform:translateY(-1px);}
+
+  main{position:relative; z-index:1;}
+  .page{display:none; animation:fadeSlide .5s ease;}
+  .page.active{display:block;}
+  @keyframes fadeSlide{ from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:translateY(0);} }
+  .wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
+
+  /* ===== photo placeholder ===== */
+  .photo-slot{
+    border:2px dashed var(--pink-deep); border-radius:20px; background:linear-gradient(160deg,var(--sky) 0%, var(--pink) 100%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:8px;
+    color:var(--muted); position:relative; overflow:hidden; transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .photo-slot:hover{transform:translateY(-4px); box-shadow:0 18px 34px -18px rgba(60,47,58,.35);}
+  .photo-slot svg{opacity:.55;}
+  .photo-slot small{font-size:.72rem; letter-spacing:.02em; max-width:80%;}
+  .photo-slot::after{
+    content:''; position:absolute; inset:0; background:linear-gradient(120deg, transparent 40%, rgba(255,255,255,.5) 50%, transparent 60%);
+    transform:translateX(-120%); transition:transform .9s ease;
+  }
+  .photo-slot:hover::after{transform:translateX(120%);}
+
+  /* ===== HERO ===== */
+  .hero{padding:70px 0 40px;}
+  .hero-grid{display:grid; grid-template-columns:1fr .95fr; gap:50px; align-items:center;}
+  .eyebrow{display:inline-flex; align-items:center; gap:8px; background:var(--sky); color:var(--ink); font-size:.8rem; padding:7px 16px; border-radius:999px; margin-bottom:20px;}
+  .hero h1{font-size:3.4rem; margin-bottom:18px;}
+  .hero h1 em{font-style:italic; color:var(--gold);}
+  .hero p.lead{color:var(--muted); font-size:1.08rem; max-width:440px; margin-bottom:30px;}
+  .btn-primary{background:var(--ink); color:#fff; padding:15px 30px; border-radius:999px; font-weight:500; display:inline-block; transition:transform .2s, background .2s;}
+  .btn-primary:hover{background:#54424f; transform:translateY(-2px);}
+  .btn-line{border:1.5px solid var(--ink); padding:14px 28px; border-radius:999px; font-weight:500; display:inline-block; transition:background .2s;}
+  .btn-line:hover{background:var(--sky);}
+  .hero-actions{display:flex; gap:14px; flex-wrap:wrap;}
+  .hero .photo-slot{height:420px;}
+  .hero .photo-slot.main-hero{}
+
+  /* marquee */
+  .marquee-wrap{overflow:hidden; background:var(--ink); padding:14px 0; margin:50px 0;}
+  .marquee{display:flex; gap:50px; white-space:nowrap; animation:scrollmq 20s linear infinite; width:max-content;}
+  .marquee span{color:var(--pink-deep); font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.15rem; letter-spacing:.03em;}
+  @keyframes scrollmq{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+  /* section head */
+  .section-head{text-align:center; max-width:560px; margin:0 auto 40px;}
+  .section-head .eyebrow{margin-bottom:14px;}
+  .section-head h2{font-size:2.3rem;}
+  .section-head p{color:var(--muted); margin-top:10px;}
+
+  /* categories */
+  .cat-strip{padding:20px 0 70px;}
+  .cat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:20px;}
+  .cat-card{position:relative;}
+  .cat-card .photo-slot{height:230px; border-radius:18px;}
+  .cat-card h4{margin-top:12px; font-size:1.15rem; text-align:center;}
+
+  /* collection */
+  .collection-head{padding:60px 0 20px;}
+  .filter-row{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:30px 0 40px;}
+  .chip{background:var(--white); border:1.5px solid var(--line); padding:9px 18px; border-radius:999px; font-size:.86rem; transition:all .2s;}
+  .chip.active, .chip:hover{background:var(--ink); border-color:var(--ink); color:#fff;}
+  .piece-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:26px; padding-bottom:80px;}
+  .piece-card{background:#fff; border:1px solid var(--line); border-radius:20px; padding:14px; transition:transform .25s ease, box-shadow .25s ease;}
+  .piece-card:hover{transform:translateY(-6px); box-shadow:0 20px 40px -22px rgba(60,47,58,.3);}
+  .piece-card .photo-slot{height:300px;}
+  .piece-info{padding:16px 6px 6px;}
+  .piece-info h4{font-size:1.2rem;}
+  .piece-info .tag{color:var(--muted); font-size:.82rem; margin-bottom:8px;}
+  .piece-info .price{color:var(--gold); font-weight:600; font-family:'Cormorant Garamond',serif; font-size:1.15rem; margin-bottom:12px;}
+  .enquire-btn{
+    width:100%; background:var(--sky); color:var(--ink); padding:10px 0; border-radius:10px; font-weight:500; font-size:.88rem;
+    display:flex; align-items:center; justify-content:center; gap:8px; transition:background .2s;
+  }
+  .enquire-btn:hover{background:var(--pink-deep); color:#fff;}
+  .new-badge{position:absolute; top:14px; left:14px; background:var(--gold); color:#fff; font-size:.7rem; letter-spacing:.05em; padding:5px 12px; border-radius:999px; z-index:2;}
+
+  /* about */
+  .about-section{padding:60px 0 80px;}
+  .about-grid{display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:center; margin-bottom:70px;}
+  .about-grid .photo-slot{height:400px;}
+  .about-grid p{color:var(--muted); margin-top:14px;}
+  .timeline{margin-top:22px;}
+  .timeline-item{display:flex; gap:16px; padding-bottom:24px; position:relative;}
+  .timeline-item::before{content:''; position:absolute; left:9px; top:24px; bottom:0; width:2px; background:var(--line);}
+  .timeline-item:last-child::before{display:none;}
+  .t-dot{width:20px; height:20px; border-radius:50%; background:var(--pink-deep); flex-shrink:0; margin-top:2px;}
+  .timeline-item h4{font-size:1.1rem;}
+  .timeline-item span{color:var(--muted); font-size:.88rem;}
+  .values-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:20px;}
+  .value-card{text-align:center; padding:26px 16px; background:#fff; border:1px solid var(--line); border-radius:18px;}
+  .value-card .ic{width:44px; height:44px; margin:0 auto 12px; border-radius:12px; background:var(--sky); display:flex; align-items:center; justify-content:center;}
+  .value-card h4{font-size:1rem; margin-bottom:5px;}
+  .value-card p{color:var(--muted); font-size:.85rem;}
+
+  /* contact */
+  .contact-section{padding:60px 0 90px;}
+  .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:36px;}
+  .contact-card{background:#fff; border:1px solid var(--line); border-radius:22px; padding:38px;}
+  .contact-row{display:flex; gap:14px; margin-bottom:24px; align-items:flex-start;}
+  .contact-row .ic{width:44px; height:44px; border-radius:12px; background:var(--pink); display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;}
+  .contact-row h4{font-size:1rem; margin-bottom:2px;}
+  .contact-row span{color:var(--muted); font-size:.9rem;}
+  .whatsapp-btn{display:inline-flex; align-items:center; gap:10px; background:#25D366; color:#fff; padding:14px 26px; border-radius:999px; font-weight:500; margin-top:6px;}
+  .whatsapp-btn:hover{background:#1EBE5A;}
+  .enquiry-form{background:#fff; border:1px solid var(--line); border-radius:22px; padding:38px;}
+  .enquiry-form label{font-size:.85rem; font-weight:500; color:var(--ink); margin-bottom:6px; display:block;}
+  .enquiry-form input, .enquiry-form textarea{
+    width:100%; border:1.5px solid var(--line); border-radius:12px; padding:12px 16px; font-family:inherit; font-size:.95rem; outline:none; margin-bottom:16px; transition:border-color .2s;
+  }
+  .enquiry-form input:focus, .enquiry-form textarea:focus{border-color:var(--pink-deep);}
+
+  footer{background:var(--ink); color:#E9DEE5; padding:44px 0 22px; position:relative; z-index:1;}
+  .footer-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:34px; margin-bottom:28px;}
+  .footer-brand{font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:#fff; margin-bottom:10px;}
+  .footer-brand em{color:var(--pink-deep); font-style:italic;}
+  footer p{color:#C9BAC4; font-size:.88rem; max-width:300px;}
+  footer h4{color:#fff; font-size:.92rem; margin-bottom:14px;}
+  footer ul{list-style:none;}
+  footer ul li{margin-bottom:9px;}
+  footer ul li a{color:#C9BAC4; font-size:.88rem;}
+  footer ul li a:hover{color:#fff;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.12); padding-top:16px; text-align:center; color:#9C8C97; font-size:.8rem;}
+
+  @media (max-width:900px){
+    .hero-grid, .about-grid, .contact-grid{grid-template-columns:1fr;}
+    .cat-grid{grid-template-columns:1fr 1fr;}
+    .piece-grid{grid-template-columns:1fr 1fr;}
+    .values-grid{grid-template-columns:1fr 1fr;}
+    nav.links{display:none;}
+    .footer-grid{grid-template-columns:1fr;}
+    .hero h1{font-size:2.3rem;}
+  }
+  @media (max-width:560px){
+    .cat-grid, .piece-grid, .values-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient"></div>
+<div class="lace-pattern"></div>
+<div class="drift d1"></div>
+<div class="drift d2"></div>
+<div class="drift d3"></div>
+
+<header>
+  <div class="nav-wrap">
+    <div class="brand" onclick="showPage('home')" style="cursor:pointer">Kashish <span>Wears</span></div>
+    <nav class="links">
+      <button data-page="home" class="active" onclick="showPage('home')">Home</button>
+      <button data-page="collection" onclick="showPage('collection')">Collection</button>
+      <button data-page="about" onclick="showPage('about')">About</button>
+      <button data-page="contact" onclick="showPage('contact')">Contact</button>
+    </nav>
+    <a class="nav-cta" href="https://wa.me/919090989880" target="_blank">WhatsApp Us</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ HOME ============ -->
+  <section id="page-home" class="page active">
+    <div class="wrap hero">
+      <div class="hero-grid">
+        <div class="reveal in-view">
+          <span class="eyebrow">✦ New Collection Just Arrived</span>
+          <h1>Wear what feels <em>like you.</em></h1>
+          <p class="lead">Kashish Wears brings you handpicked, thoughtfully designed outfits — soft on the eyes, easy to wear, made to be noticed. Browse our latest pieces below.</p>
+          <div class="hero-actions">
+            <a class="btn-primary" onclick="showPage('collection')">View Latest Pieces</a>
+            <a class="btn-line" onclick="showPage('contact')">Get in Touch</a>
+          </div>
+        </div>
+        <div class="photo-slot main-hero reveal in-view">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <small>Hero photo will go here</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="marquee-wrap">
+      <div class="marquee">
+        <span>NEW ARRIVALS</span><span>✦</span><span>KASHISH WEARS</span><span>✦</span><span>HANDPICKED FABRICS</span><span>✦</span><span>MADE WITH LOVE</span><span>✦</span>
+        <span>NEW ARRIVALS</span><span>✦</span><span>KASHISH WEARS</span><span>✦</span><span>HANDPICKED FABRICS</span><span>✦</span><span>MADE WITH LOVE</span><span>✦</span>
+      </div>
+    </div>
+
+    <div class="wrap cat-strip">
+      <div class="section-head reveal">
+        <span class="eyebrow">Shop by Style</span>
+        <h2>Explore our categories</h2>
+        <p>A little something for every occasion, every mood.</p>
+      </div>
+      <div class="cat-grid">
+        <div class="cat-card reveal">
+          <div class="photo-slot"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><small>Photo coming soon</small></div>
+          <h4>Ethnic Wear</h4>
+        </div>
+        <div class="cat-card reveal">
+          <div class="photo-slot"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><small>Photo coming soon</small></div>
+          <h4>Western Fits</h4>
+        </div>
+        <div class="cat-card reveal">
+          <div class="photo-slot"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><small>Photo coming soon</small></div>
+          <h4>Co-ord Sets</h4>
+        </div>
+        <div class="cat-card reveal">
+          <div class="photo-slot"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><small>Photo coming soon</small></div>
+          <h4>Party Wear</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COLLECTION ============ -->
+  <section id="page-collection" class="page">
+    <div class="wrap collection-head">
+      <div class="section-head reveal in-view">
+        <span class="eyebrow">The Collection</span>
+        <h2>Our latest pieces</h2>
+        <p>Have a look at what's new. Like something? Tap "Enquire" and message us directly — no cart, no delivery hassle, just a quick chat.</p>
+      </div>
+      <div class="filter-row" id="filterRow"></div>
+    </div>
+    <div class="wrap">
+      <div class="piece-grid" id="pieceGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="page-about" class="page">
+    <div class="wrap about-section">
+      <div class="section-head reveal in-view">
+        <span class="eyebrow">Our Story</span>
+        <h2>Designed with heart, worn with confidence</h2>
+      </div>
+      <div class="about-grid">
+        <div class="photo-slot reveal in-view"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><small>Brand photo will go here</small></div>
+        <div class="reveal in-view">
+          <h2 style="font-size:1.8rem;">Every piece has a little story</h2>
+          <p>Kashish Wears started with a simple idea — clothes should feel as good as they look. What began as a small personal styling passion has grown into a collection loved by everyone who's worn it.</p>
+          <p>Every outfit is chosen and finished with care, so that whatever you pick, it feels made for you.</p>
+          <div class="timeline">
+            <div class="timeline-item"><div class="t-dot"></div><div><h4>Where it began</h4><span>Started with a handful of handpicked outfits shared with friends and family.</span></div></div>
+            <div class="timeline-item"><div class="t-dot"></div><div><h4>Growing the collection</h4><span>Added new styles every season based on what our customers loved most.</span></div></div>
+            <div class="timeline-item"><div class="t-dot"></div><div><h4>Today</h4><span>A full lookbook you can browse anytime, right from your phone.</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="section-head reveal">
+        <span class="eyebrow">What We Promise</span>
+        <h2>Our values</h2>
+      </div>
+      <div class="values-grid">
+        <div class="value-card reveal"><div class="ic">✦</div><h4>Handpicked quality</h4><p>Every piece is checked before it's shown to you.</p></div>
+        <div class="value-card reveal"><div class="ic">💬</div><h4>Personal service</h4><p>Talk to us directly — no forms, no confusion.</p></div>
+        <div class="value-card reveal"><div class="ic">🎨</div><h4>Fresh styles</h4><p>New pieces added regularly, always on-trend.</p></div>
+        <div class="value-card reveal"><div class="ic">🤍</div><h4>Honest pricing</h4><p>Clear pricing shared the moment you ask.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="page-contact" class="page">
+    <div class="wrap contact-section">
+      <div class="section-head reveal in-view">
+        <span class="eyebrow">Let's Talk</span>
+        <h2>Loved a piece? Let's chat</h2>
+        <p>Send us a message or reach out directly — we'll get back to you with details, pricing and availability.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card reveal in-view">
+          <div class="contact-row"><div class="ic">📞</div><div><h4>Call / WhatsApp</h4><span>+91 90909 89880</span></div></div>
+          <div class="contact-row"><div class="ic">✉️</div><div><h4>Email</h4><span>kashishwears@gmail.com</span></div></div>
+          <div class="contact-row"><div class="ic">📸</div><div><h4>Instagram</h4><span>@kashishwears (link coming soon)</span></div></div>
+          <a class="whatsapp-btn" href="https://wa.me/919090989880" target="_blank">💬 Chat on WhatsApp</a>
+        </div>
+        <div class="enquiry-form reveal in-view">
+          <h3 style="font-size:1.3rem; margin-bottom:18px;">Send an enquiry</h3>
+          <form onsubmit="sendEnquiry(event)">
+            <label>Your Name</label>
+            <input type="text" id="enqName" placeholder="e.g. Priya" required>
+            <label>Phone Number</label>
+            <input type="tel" id="enqPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+            <label>Message</label>
+            <textarea id="enqMsg" rows="4" placeholder="Tell us which piece you liked, or ask a question" required></textarea>
+            <button type="submit" class="btn-primary" style="width:100%; text-align:center;">Send Enquiry</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div>
+      <div class="footer-brand">Kashish <em>Wears</em></div>
+      <p>Handpicked outfits, shown here for you to browse. Reach out directly for pricing and availability — every piece is a message away.</p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a onclick="showPage('home')" style="cursor:pointer">Home</a></li>
+        <li><a onclick="showPage('collection')" style="cursor:pointer">Collection</a></li>
+        <li><a onclick="showPage('about')" style="cursor:pointer">About</a></li>
+        <li><a onclick="showPage('contact')" style="cursor:pointer">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+919090989880">+91 90909 89880</a></li>
+        <li><a href="mailto:kashishwears@gmail.com">kashishwears@gmail.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">© 2026 Kashish Wears. All pieces shown are for viewing — message us to order.</div>
+</footer>
+
+<script>
+/* ---------- Latest pieces data (photos to be added later — see photo-slot placeholders) ---------- */
+const pieces = [
+  {id:1, name:"Rose Anarkali Set", cat:"Ethnic", price:"On request", isNew:true},
+  {id:2, name:"Powder Blue Kurti", cat:"Ethnic", price:"On request", isNew:true},
+  {id:3, name:"Blush Co-ord Set", cat:"Co-ord", price:"On request", isNew:false},
+  {id:4, name:"Sky Denim Jacket", cat:"Western", price:"On request", isNew:false},
+  {id:5, name:"Pearl Party Gown", cat:"Party", price:"On request", isNew:true},
+  {id:6, name:"Petal Pink Saree", cat:"Ethnic", price:"On request", isNew:false},
+  {id:7, name:"Cloud White Top", cat:"Western", price:"On request", isNew:false},
+  {id:8, name:"Sunset Party Dress", cat:"Party", price:"On request", isNew:true},
+  {id:9, name:"Mint Co-ord Set", cat:"Co-ord", price:"On request", isNew:false}
+];
+const categories = ["All","Ethnic","Western","Co-ord","Party"];
+let activeCat = "All";
+
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('nav.links button').forEach(b => b.classList.toggle('active', b.dataset.page === name));
+  window.scrollTo({top:0, behavior:'smooth'});
+  observeReveals();
+}
+
+function pieceCard(p){
+  return `
+  <div class="piece-card reveal in-view" style="position:relative;">
+    ${p.isNew ? '<span class="new-badge">NEW</span>' : ''}
+    <div class="photo-slot">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      <small>Photo of "${p.name}" coming soon</small>
+    </div>
+    <div class="piece-info">
+      <h4>${p.name}</h4>
+      <div class="tag">${p.cat}</div>
+      <div class="price">${p.price}</div>
+      <a class="enquire-btn" href="https://wa.me/919090989880?text=Hi! I'm interested in the ${encodeURIComponent(p.name)}" target="_blank">💬 Enquire on WhatsApp</a>
+    </div>
+  </div>`;
+}
+
+function renderPieces(){
+  const grid = document.getElementById('pieceGrid');
+  const filtered = activeCat === "All" ? pieces : pieces.filter(p => p.cat === activeCat);
+  grid.innerHTML = filtered.map(pieceCard).join('');
+}
+
+function renderFilters(){
+  document.getElementById('filterRow').innerHTML = categories.map(c =>
+    `<button class="chip ${c===activeCat?'active':''}" onclick="setCat('${c}')">${c}</button>`
+  ).join('');
+}
+function setCat(c){ activeCat = c; renderFilters(); renderPieces(); }
+
+function sendEnquiry(e){
+  e.preventDefault();
+  const name = document.getElementById('enqName').value.trim();
+  const phone = document.getElementById('enqPhone').value.trim();
+  const msg = document.getElementById('enqMsg').value.trim();
+  const subject = encodeURIComponent('Enquiry from ' + name);
+  const body = encodeURIComponent(msg + '\n\nName: ' + name + '\nPhone: ' + phone);
+  window.location.href = `mailto:kashishwears@gmail.com?subject=${subject}&body=${body}`;
+}
+
+/* scroll reveal for non-hero sections */
+function observeReveals(){
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('in-view'); });
+  }, {threshold:.15});
+  document.querySelectorAll('.reveal:not(.in-view)').forEach(el => io.observe(el));
+}
+
+renderFilters();
+renderPieces();
+observeReveals();
+</script>
+</body>
+</html>
